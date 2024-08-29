@@ -1,4 +1,3 @@
-// NOTE: FUNCTION DEFINITIONS go in .CPP files
 #include "Functions.h"
 #include "cmath"
 
@@ -82,8 +81,7 @@ void example4() {
 }
 
 // EXAMPLE 5
-int rollDie(int &x, int &y) {
-	srand(time(0));
+int rollDie(int& x, int& y) {
 	x = rand() % 6 + 1;
 	y = rand() % 6 + 1;
 	  //add code to 'roll' two 6-sided dice and return the sum 
@@ -96,6 +94,7 @@ void example5() {
 	cout << "\nEXAMPLE 5: ROLL DIE\n";
   // ADD LOGIC TO ROLL DIE & PRINT SUM
 	int die1 = 0, die2 = 0, sum;
+	srand(time(0));
 	sum = rollDie(die1, die2);
 	cout << die1 << " + " << die2 << " = " << sum << endl;
 }
@@ -109,35 +108,44 @@ void playCraps() {
 	//2,3,12 you lose
 	//otherwise set point
 	//roll until you get point (win) or 7 (lose)
-	int die1 = 0, die2 = 0, total = 0 , point = 0;
-	srand(time(0));
+	int die1 = 0, die2 = 0, total = 0 , point = 0, netWorth= 50,  bet=0;
 	char userChoice = 'Y';
-	while (userChoice == 'Y' || userChoice == 'y'){
+	srand(time(0));
+	while (userChoice == 'Y' || userChoice == 'y' || netWorth!=0){
+		cout << "Your net worth is: $" << netWorth << ".00. " << "Please enter your bet: " << endl;
+		cin >> bet;
+		while (bet >netWorth) {
+			cout << "Your net worth is only: $" << netWorth << ".00. " << "Please adjust your bet: " << endl;
+			cin >> bet;
+		}
 		total = rollDie(die1, die2);
 		cout << die1 << " + " << die2 << " = " << total << endl;
 		if (total == 7 || total == 11) {
 			cout << "You win beacuse you rolled a " << total << "." << endl;
+			netWorth += bet;
+			cout << "You Won!! you now have: " << netWorth << ".00. " << endl;
 		}
 		else if (total == 2 || total == 3 || total == 12) {
 			cout << "You lose beacuse you rolled a " << total << "." << endl;
+			netWorth -= bet;
+			cout << "Sorry, you lost!! you now have: " << netWorth << ".00. " << endl;
 		}
 		else{
 			point = total;
 			cout << "The point is " << total << "." << endl;
 			total = 0;
 			while (point != total && total != 7) {
-				srand(time(0));
-				die1 = 0;
-				die2 = 0;
 				total = rollDie(die1, die2);
 				cout << die1 << " + " << die2 << " = " << total << endl;
 
 			}
 			if (total == point) {
-				cout << "You win!!!\n";
+				netWorth += bet;
+				cout << "You Won!! you now have: " << netWorth << ".00. " << endl;
 			}
 			else {
-				cout << "You Lose!!!\n";
+				netWorth -= bet;
+				cout << "Sorry, you lost!! you now have: " << netWorth << ".00. " << endl;
 			}
 
 
@@ -243,26 +251,26 @@ void rockPaperScissors() {
 		}
 		else if (userPick == 0) {
 			if (compPick == 1) {
-				cout << "LOSE: Paper Covers Rock\n";
+				cout << "Computer chose Paper\nLOSE: Paper Covers Rock\n";
 			}
 			else {
-				cout << "WIN: Rock Pounds Scissors\n";
+				cout << "Computer chose Scissors \n : Rock Pounds Scissors\n";
 			}
 		}
 		else if (userPick == 1) {
 			if (compPick == 0) {
-				cout << "WIN: Paper Covers Rock\n";
+				cout << "Computer chose Rock \nWIN: Paper Covers Rock\n";
 			}
 			else {
-				cout << "LOSE:Scissors Cut Paper\n";
+				cout << "Computer chose Scissors \nLOSE:Scissors Cut Paper\n";
 			}
 		}
 		else {
 			if (compPick == 0) {
-				cout << "LOSE: Rock Pounds Scissors\n";
+				cout << "Computer chose Rock \nLOSE: Rock Pounds Scissors\n";
 			}
 			else {
-				cout << "WIN: Scissors Cut Paper\n";
+				cout << "Computer chose Paper\nWIN: Scissors Cut Paper\n";
 			}
 		}
 
